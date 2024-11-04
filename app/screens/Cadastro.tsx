@@ -1,22 +1,14 @@
 import { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { handleLogin } from "../functions/authHandlers";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import {handleRegister} from "../functions/authHandlers";
 
-type RootStackParamList = {
-  Login: undefined;
-  Cadastro: undefined;
-  Home: undefined;
-};
-
-export default function Login() {
+export default function Cadastro() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Cadastro</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -33,9 +25,7 @@ export default function Login() {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Login" onPress={() => handleLogin({email, password})} />
-      <View style={styles.buttonSpacing} />
-      <Button title="Cadastre-se" onPress={() => navigation.navigate('Cadastro')} />
+      <Button title="Cadastrar" onPress={() => handleRegister({ email, password })} />
     </View>
   );
 }
@@ -58,8 +48,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 12,
     paddingHorizontal: 8,
-  },
-  buttonSpacing: {
-    height: 10,
   },
 });

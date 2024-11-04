@@ -1,10 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
-import {Button, StyleSheet, Text, View} from 'react-native';
-import {AuthProvider, useAuth} from "./app/context/AuthContext";
+import { Button, StyleSheet } from 'react-native';
+import { AuthProvider, useAuth } from "./app/context/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "./app/screens/Home";
-import Login from "./app/screens/Login";
+import { Login, Cadastro, Home } from "./app/screens";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,18 +20,26 @@ export const Layout = () => {
     <NavigationContainer>
       <Stack.Navigator>
         {authState?.authenticated ? (
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{
-              headerRight: () => <Button title="Logout" onPress={onLogout} />
-            }}
-          />
+          <>
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              options={{
+                headerRight: () => <Button title="Logout" onPress={onLogout} />
+              }}
+            />
+          </>
         ) : (
-          <Stack.Screen
-            name="Login"
-            component={Login}
-          />
+          <>
+            <Stack.Screen
+              name="Login"
+              component={Login}
+            />
+            <Stack.Screen
+              name="Cadastro"
+              component={Cadastro}
+            />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

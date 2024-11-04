@@ -15,7 +15,7 @@ interface AuthProps {
 type AuthState = AuthProps['authState'];
 
 const TOKEN_KEY = 'my_token';
-export const API_URL = 'http://localhost:3000/api';
+export const API_URL = 'http://10.202.30.52:3000/api';
 const AuthContext = createContext<AuthProps>({});
 
 export const useAuth = () => {
