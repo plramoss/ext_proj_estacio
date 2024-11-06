@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { useAuth } from "../context/AuthContext";
+import InputWithIcon from "../components/InputWithIcon";
+import { StyledButtonAuth } from "../components/StyledButtonAuth";
 
 export default function Cadastro() {
   const [ email, setEmail ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
-  const { onRegister, onLogin, authState } = useAuth();
+  const { onRegister } = useAuth();
   
   const handleRegister = async ({ email, password }: { email: string, password: string }) => {
     await onRegister!(email, password);
@@ -13,24 +15,13 @@ export default function Cadastro() {
   
   return (
     <View style={ styles.container }>
+      <Image source={ require('../../assets/d10.jpeg') } style={ styles.logo }/>
       <Text style={ styles.title }>Cadastro</Text>
-      <TextInput
-        style={ styles.input }
-        placeholder="Email"
-        value={ email }
-        onChangeText={ setEmail }
-        keyboardType="email-address"
-        autoCapitalize="none"
-        textContentType={ 'emailAddress' }
-      />
-      <TextInput
-        style={ styles.input }
-        placeholder="Password"
-        value={ password }
-        onChangeText={ setPassword }
-        secureTextEntry
-      />
-      <Button title="Cadastrar" onPress={ () => handleRegister({ email, password }) }/>
+      <InputWithIcon state={ email } setState={ setEmail } type={ 'email' }/>
+      <InputWithIcon state={ email } setState={ setEmail } type={ 'email' }/>
+      <InputWithIcon state={ password } setState={ setPassword } type={ 'password' }/>
+      <InputWithIcon state={ password } setState={ setPassword } type={ 'password' }/>
+      <StyledButtonAuth title="Cadastre" onPress={ () => handleRegister({ email, password }) }/>
     </View>
   );
 }
@@ -38,20 +29,40 @@ export default function Cadastro() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    padding: 16,
-    backgroundColor: '#fff',
+    justifyContent: 'flex-start',
+    backgroundColor: 'rgba(52, 199, 89, 0.46)',
+  },
+  logo: {
+    width: 400,
+    height: 350,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
+    fontWeight: 'semibold',
     marginBottom: 16,
+    marginTop: 16,
     textAlign: 'center',
+    color: '#fff',
   },
-  input: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
+  forgotPassword: {
+    marginLeft: 'auto',
+    width: 150,
+    alignItems: 'center',
+    padding: 8,
+  },
+  secondaryButton: {
+    borderColor: '#fff',
+    backgroundColor: 'transparent',
+    borderBottomWidth: 2,
+    borderRadius: 19,
+    paddingBottom: 8,
+    marginTop: 8,
+    width: 150,
+    alignItems: 'center',
+    marginHorizontal: 'auto'
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16
   },
 });

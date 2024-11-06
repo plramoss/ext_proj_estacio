@@ -1,4 +1,4 @@
-import { Button, StyleSheet } from 'react-native';
+import { Button } from 'react-native';
 import { AuthProvider, useAuth } from "./app/context/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -34,10 +34,16 @@ export const Layout = () => {
             <Stack.Screen
               name="Login"
               component={ Login }
+              options={ {
+                headerShown: false,
+              } }
             />
             <Stack.Screen
               name="Cadastro"
               component={ Cadastro }
+              options={ {
+                headerShown: false,
+              } }
             />
           </>
         ) }
@@ -45,12 +51,3 @@ export const Layout = () => {
     </NavigationContainer>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
