@@ -3,20 +3,25 @@ import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
 import { Alert } from "react-native";
 
+type RegisterParams = {
+  nome: string;
+  email: string;
+  password: string;
+}
 interface AuthProps {
   authState?: {
     token: string | null;
     authenticated: boolean | null;
   };
-  onRegister?: (email: string, password: string) => Promise<any>;
+  onRegister?: ({ nome, email, password }: RegisterParams) => Promise<any>;
   onLogin?: (email: string, password: string) => Promise<any>;
   onLogout?: () => Promise<any>;
 }
 
 type AuthState = AuthProps['authState'];
 
-const TOKEN_KEY = 'my_token';
-export const API_URL = 'http://10.202.30.52:3000/api';
+export const TOKEN_KEY = 'my_token';
+export const API_URL = 'http://192.168.1.12:3000/api';
 const AuthContext = createContext<AuthProps>({});
 
 export const useAuth = () => {
@@ -30,7 +35,7 @@ export const AuthProvider = ({ children }: any) => {
   })
   
   useEffect(() => {
-    const loadToken = async () => {
+    (async () => {
       const token = await SecureStore.getItemAsync(TOKEN_KEY);
       
       if (token) {
@@ -46,13 +51,12 @@ export const AuthProvider = ({ children }: any) => {
           authenticated: false
         });
       }
-    }
-    loadToken();
+    })();
   }, []);
   
-  const register = async (email: string, password: string) => {
+  const register = async ({nome, email, password}: RegisterParams) => {
     try {
-      await axios.post(`${ API_URL }/auth/cadastro`, { email, password })
+      await axios.post(`${ API_URL }/auth/cadastro`, { nome, email, password })
       await login(email, password);
     } catch (e) {
       console.log(e);

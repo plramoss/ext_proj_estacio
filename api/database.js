@@ -14,5 +14,5 @@ export const pool = new Pool({
 });
 
 pool.connect(undefined)
-  .then(r => console.log('Connected: ', r.statusCode))
+  .then(r => console.log(`Connected with user ${r.user} at database ${r.database}`))
   .catch(e => console.log('Error: ' + e));

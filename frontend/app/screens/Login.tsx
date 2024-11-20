@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useAuth } from "../context/AuthContext";
 import InputWithIcon from "../components/InputWithIcon";
@@ -27,19 +35,21 @@ export default function Login() {
   }
   
   return (
-    <View style={ styles.container }>
-      <Image source={ require('../../assets/d10.jpeg') } style={ styles.logo }/>
-      <Text style={ styles.title }>Login</Text>
-      <InputWithIcon state={ email } setState={ setEmail } type={ 'email' }/>
-      <InputWithIcon state={ password } setState={ setPassword } type={ 'password' }/>
-      <TouchableOpacity style={ styles.forgotPassword } onPress={ () => navigation.navigate('Cadastro') }>
-        <Text style={ styles.buttonText }>Esqueci a senha</Text>
-      </TouchableOpacity>
-      <StyledButtonAuth title="Login" onPress={ () => handleLogin({ email, password }) }/>
-      <TouchableOpacity style={ styles.secondaryButton } onPress={ () => navigation.navigate('Cadastro') }>
-        <Text style={ styles.buttonText }>Cadastro</Text>
-      </TouchableOpacity>
-    </View>
+    <KeyboardAvoidingView style={ styles.container } behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <ScrollView>
+        <Image source={ require('../../assets/d10.jpeg') } style={ styles.logo }/>
+        <Text style={ styles.title }>Login</Text>
+        <InputWithIcon state={ email } setState={ setEmail } type={ 'email' }/>
+        <InputWithIcon state={ password } setState={ setPassword } type={ 'password' }/>
+        <TouchableOpacity style={ styles.forgotPassword } onPress={ () => navigation.navigate('Cadastro') }>
+          <Text style={ styles.buttonText }>Esqueci a senha</Text>
+        </TouchableOpacity>
+        <StyledButtonAuth title="Login" onPress={ () => handleLogin({ email, password }) }/>
+        <TouchableOpacity style={ styles.secondaryButton } onPress={ () => navigation.navigate('Cadastro') }>
+          <Text style={ styles.buttonText }>Cadastro</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
