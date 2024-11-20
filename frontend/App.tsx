@@ -3,6 +3,8 @@ import { AuthProvider, useAuth } from "./app/context/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Cadastro, Home, Login } from "./app/screens";
+import Historico from './app/screens/Historico';
+import InclusaoRef from './app/screens/InclusaoRef';
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +47,20 @@ export const Layout = () => {
                 headerShown: false,
               } }
             />
+             <Stack.Screen
+               name="Historico"
+               component={Historico}
+                options={{
+                title: 'Historico'
+             }}
+              />
+              <Stack.Screen
+              name="InclusaoRef"
+              component={InclusaoRef}
+              options={{
+              title: 'InclusaoRef'
+              }}
+              />
           </>
         ) }
       </Stack.Navigator>
