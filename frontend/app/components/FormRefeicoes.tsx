@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
-import { TextInput as PaperTextInput } from 'react-native-paper';
+import {View, Text, TextInput, Button, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import { API_URL, TOKEN_KEY } from '../context/AuthContext';
 import * as SecureStore from 'expo-secure-store';
+import {Ionicons} from "@expo/vector-icons";
+import { useNavigation } from '@react-navigation/native';
 
 const Formulario = () => {
   const [alimento, setAlimento] = useState<string>('');
   const [porcao, setPorcao] = useState<string>('');
   const [postado, setPostado] = useState<boolean>(false);
+
+  const navigation = useNavigation();
 
   const limparCampos = () => {
     setAlimento('');
@@ -24,6 +27,7 @@ const Formulario = () => {
         }
       });
       setPostado(true);
+      alert('Consumo postado com sucesso');
     } catch (error) {
       alert('Erro ao postar consumo');
     }
@@ -34,7 +38,6 @@ const Formulario = () => {
     let valor = (cal * (porcaoNumber / porcaoBase));
     await postarConsumo(valor);
     limparCampos();
-    alert('Consumo postado com sucesso');
   }
 
   const ProcurarAlimento = async () => {
@@ -63,7 +66,7 @@ const Formulario = () => {
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Qual foi a sua refeição?</Text>
 
-      <View style={styles.formGroup}>
+      <View>
         <View style={styles.itemContainer}>
           <TextInput
             style={styles.input}
@@ -71,8 +74,8 @@ const Formulario = () => {
             value={alimento}
             onChangeText={(value) => setAlimento(value)}
           />
-          <PaperTextInput
-            label="Quantidade (em gramas)"
+          <TextInput
+            placeholder="Quantidade (em gramas)"
             value={porcao}
             keyboardType="numeric"
             onChangeText={(value) => setPorcao(value)}
@@ -81,13 +84,21 @@ const Formulario = () => {
         </View>
       </View>
 
-      {!postado && <Button title="Calcular Calorias" onPress={ProcurarAlimento}/>}
+      {!postado && <TouchableOpacity
+        style={styles.buttonRefeicao}
+        onPress={ProcurarAlimento}
+      >
+        <Text style={styles.buttonRefeicaoText}>{'Salvar refeição'}</Text>
+        <Ionicons name="cloud-upload-outline" size={30} color="rgba(52,199,89,1)" />
+      </TouchableOpacity>}
 
       {postado && (
         <View style={styles.confirmation}>
-          <Text>Deseja inserir mais algum item?</Text>
-          <Button title="Sim" onPress={handleAddMore} />
-          <Button title="Não" onPress={() => setPostado(false)} />
+          <Text>Deseja enviar mais alguma refeição?</Text>
+          <View style={styles.final}>
+            <Button title="Sim" onPress={handleAddMore} />
+            <Button title="Não" onPress={() => navigation.navigate('HomeTabs' as never)} />
+          </View>
         </View>
       )}
     </ScrollView>
@@ -98,6 +109,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: '#fff',
+  },
+  final: {
+    width: '50%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
   },
   title: {
     fontSize: 24,
@@ -105,15 +123,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    height: 40,
+    height: 50,
     borderColor: '#ddd',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 15,
     marginBottom: 15,
     paddingLeft: 10,
-  },
-  formGroup: {
-    marginBottom: 30,
   },
   itemContainer: {
     marginBottom: 20,
@@ -136,6 +151,25 @@ const styles = StyleSheet.create({
   confirmation: {
     marginTop: 20,
     alignItems: 'center',
+  },
+  buttonRefeicao: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'transparent',
+    width: 300,
+    padding: 10,
+    marginHorizontal: 'auto',
+    paddingLeft: 20,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: 'rgba(52,199,89,1)',
+  },
+  buttonRefeicaoText: {
+    color: 'rgba(52,199,89,1)',
+    fontSize: 16,
+    marginRight: 8,
+    fontWeight: 'bold',
   },
 });
 

@@ -1,7 +1,6 @@
 import { AuthProvider, useAuth } from "./app/context/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Historico from './app/screens/Historico';
 import InclusaoRef from './app/screens/InclusaoRef';
 import { Cadastro, Home, Login, Historico } from "./app/screens";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
