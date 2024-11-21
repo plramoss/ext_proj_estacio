@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import alimentoRoutes from './routes/private/alimento.js';
 import cadastroRoutes from './routes/auth/cadastro.js';
 import loginRoutes from './routes/auth/login.js';
+import consumoRoutes from './routes/private/consumo.js';
 
 dotenv.config();
 
@@ -39,6 +40,7 @@ app.use(express.json());
 app.use(alimentoRoutes);
 app.use(cadastroRoutes);
 app.use(loginRoutes);
+app.use(consumoRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${ port }/api/docs`);

@@ -17,6 +17,8 @@ const saltRounds = 10;
  *           schema:
  *             type: object
  *             properties:
+ *               nome:
+ *                 type: string
  *               email:
  *                 type: string
  *               password:
@@ -26,7 +28,7 @@ const saltRounds = 10;
  *         description: Resposta bem-sucedida
  */
 router.post('/api/auth/cadastro', async (req, res) => {
-  const { email, password } = req.body;
+  const { nome, email, password } = req.body;
   
   if (!email || !password) {
     return res.status(400).json({ message: 'Email e senha são obrigatórios' });
@@ -39,7 +41,7 @@ router.post('/api/auth/cadastro', async (req, res) => {
     }
     
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    await pool.query('INSERT INTO usuarios (email, senha) VALUES ($1, $2)', [ email, hashedPassword ]);
+    await pool.query('INSERT INTO USUARIOS (nome, email, senha) VALUES ($1, $2, $3)', [nome, email, hashedPassword ]);
     res.json({ message: 'Usuário cadastrado com sucesso' });
   } catch (error) {
     console.error('Error: ', error);
