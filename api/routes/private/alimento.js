@@ -30,7 +30,7 @@ const router = express.Router();
  *                 nome:
  *                   type: string
  *                 porcao:
- *                   type: integer
+ *                   typealimentos: integer
  *                 calorias:
  *                   type: integer
  *                 carboidratos:
@@ -62,7 +62,7 @@ router.get('/api/alimentos', middleware, async (req, res) => {
     const params = [];
     
     if (nome) {
-      query += ' WHERE nome = $1';
+      query += ' WHERE nome ILIKE $1';
       params.push(`%${ nome }%`);
     }
     

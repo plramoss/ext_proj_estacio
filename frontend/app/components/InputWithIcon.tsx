@@ -4,11 +4,12 @@ import { Ionicons } from '@expo/vector-icons';
 
 type InputWithIconProps = {
   type: 'nome' | 'email' | 'password';
+  subType?: boolean;
   state: string;
   setState: Dispatch<SetStateAction<string>>
 }
 
-export default function InputWithIcon({ state, setState, type }: InputWithIconProps) {
+export default function InputWithIcon({ state, setState, type, subType }: InputWithIconProps) {
   if (type === 'email') {
     return (
       <View style={ styles.inputContainer }>
@@ -26,6 +27,22 @@ export default function InputWithIcon({ state, setState, type }: InputWithIconPr
       </View>
     );
   } else if (type === 'password') {
+      if (subType) {
+        return (
+          <View style={ styles.inputContainer }>
+            <Ionicons name={ 'lock-closed-outline' } size={ 24 } color="gray" style={ styles.icon }/>
+            <TextInput
+              style={ styles.input }
+              placeholderTextColor={ 'gray' }
+              placeholder="Confirme a senha"
+              value={ state }
+              onChangeText={ setState }
+              secureTextEntry
+              textContentType="password"
+            />
+          </View>
+        );
+      }
     return (
       <View style={ styles.inputContainer }>
         <Ionicons name={ 'lock-closed-outline' } size={ 24 } color="gray" style={ styles.icon }/>

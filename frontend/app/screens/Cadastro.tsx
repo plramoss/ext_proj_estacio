@@ -1,28 +1,43 @@
 import { useState } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import {Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text } from 'react-native';
 import { useAuth } from "../context/AuthContext";
 import InputWithIcon from "../components/InputWithIcon";
 import { StyledButtonAuth } from "../components/StyledButtonAuth";
 
+type RegisterProps = {
+  nome: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export default function Cadastro() {
+  const [ nome, setNome ] = useState<string>('');
   const [ email, setEmail ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
+  const [ confirmPassword, setConfirmPassword ] = useState<string>('');
   const { onRegister } = useAuth();
   
-  const handleRegister = async ({ email, password }: { email: string, password: string }) => {
-    await onRegister!(email, password);
+  const handleRegister = async ({ nome, email, password, confirmPassword }: RegisterProps) => {
+    if (password !== confirmPassword) {
+      alert('As senhas não coincidem');
+      return;
+    }
+    await onRegister!({nome, email, password});
   }
   
   return (
-    <View style={ styles.container }>
-      <Image source={ require('../../assets/d10.jpeg') } style={ styles.logo }/>
-      <Text style={ styles.title }>Cadastro</Text>
-      <InputWithIcon state={ email } setState={ setEmail } type={ 'email' }/>
-      <InputWithIcon state={ email } setState={ setEmail } type={ 'email' }/>
-      <InputWithIcon state={ password } setState={ setPassword } type={ 'password' }/>
-      <InputWithIcon state={ password } setState={ setPassword } type={ 'password' }/>
-      <StyledButtonAuth title="Cadastre" onPress={ () => handleRegister({ email, password }) }/>
-    </View>
+    <KeyboardAvoidingView style={ styles.container } behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <ScrollView>
+        <Image source={ require('../../assets/d10.jpeg') } style={ styles.logo }/>
+        <Text style={ styles.title }>Cadastro</Text>
+        <InputWithIcon state={ nome } setState={ setNome } type={ 'nome' }/>
+        <InputWithIcon state={ email } setState={ setEmail } type={ 'email' }/>
+        <InputWithIcon state={ password } setState={ setPassword } type={ 'password' }/>
+        <InputWithIcon state={ confirmPassword } setState={ setConfirmPassword } type={ 'password' } subType={true}/>
+        <StyledButtonAuth title="Cadastre" onPress={ () => handleRegister({ nome, email, password, confirmPassword }) }/>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
